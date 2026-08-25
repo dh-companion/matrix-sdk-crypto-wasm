@@ -1,4 +1,5 @@
 import {
+    CollectStrategy,
     DehydratedDeviceKey,
     DecryptionSettings,
     DeviceId,
@@ -123,6 +124,19 @@ describe("dehydrated devices", () => {
             }),
         );
 
+        await machine.shareRoomKey(room, [], new EncryptionSettings());
+        const bundle = await machine.buildRoomKeyBundle(room);
+        const [bundleShareRequest] = await machine.shareRoomKeyBundleData(
+            user,
+            room,
+            "mxc://test/history",
+            bundle!.mediaEncryptionInfo,
+            CollectStrategy.identityBasedStrategy(),
+        );
+        const bundleShareContent = JSON.parse(bundleShareRequest.body).messages["@alice:example.org"][
+            dehydrationBody.device_id
+        ];
+
         // encrypt an event and send key to dehydrated device
         const [keyShareRequest] = await machine.shareRoomKey(room, [user.clone()], new EncryptionSettings());
         const keyShareContent = JSON.parse(keyShareRequest.body).messages["@alice:example.org"][
@@ -155,8 +169,17 @@ describe("dehydrated devices", () => {
                     sender: "@alice:example.org",
                     content: keyShareContent,
                 },
+                {
+                    type: "m.room.encrypted",
+                    sender: "@alice:example.org",
+                    content: bundleShareContent,
+                },
             ]),
         );
+
+        const receivedBundle = await machine2.getReceivedRoomKeyBundleData(room, user);
+        expect(receivedBundle).toBeDefined();
+        expect(receivedBundle!.url).toEqual("mxc://test/history");
 
         // decrypt the event sent by the first machine
         const encryptedEvent = JSON.stringify({

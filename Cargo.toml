@@ -91,3 +91,11 @@ features = ["js", "automatic-room-key-forwarding", "experimental-encrypted-state
 # Workaround for https://github.com/rustwasm/wasm-bindgen/issues/4283, while we work up the courage to upgrade
 # wasm-bindgen
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(wasm_bindgen_unstable_test_coverage)'] }
+
+[patch.crates-io]
+matrix-sdk-base = { git = "https://github.com/dh-companion/matrix-rust-sdk", rev = "070b4d068fad21f6ebac6211f33f858e92165167" }
+matrix-sdk-common = { git = "https://github.com/dh-companion/matrix-rust-sdk", rev = "070b4d068fad21f6ebac6211f33f858e92165167" }
+matrix-sdk-crypto = { git = "https://github.com/dh-companion/matrix-rust-sdk", rev = "070b4d068fad21f6ebac6211f33f858e92165167" }
+matrix-sdk-indexeddb = { git = "https://github.com/dh-companion/matrix-rust-sdk", rev = "070b4d068fad21f6ebac6211f33f858e92165167" }
+matrix-sdk-qrcode = { git = "https://github.com/dh-companion/matrix-rust-sdk", rev = "070b4d068fad21f6ebac6211f33f858e92165167" }
+matrix-sdk-store-encryption = { git = "https://github.com/dh-companion/matrix-rust-sdk", rev = "070b4d068fad21f6ebac6211f33f858e92165167" }
