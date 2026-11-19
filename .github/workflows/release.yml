@@ -1,13 +1,4 @@
-# This workflow releases the `matrix-sdk-crypto-wasm` project.
-#
-# It is triggered when a new tag appears that matches
-# `v[0-9]+.*`. This workflow builds the package
-# for the bindings, runs its tests to ensure everything is still
-# correct, and publishes the package on NPM and on a newly created
-# Github release.
-
-
-name: Release `crypto-js`
+name: Release patched crypto WASM
 
 env:
   CARGO_TERM_COLOR: always
@@ -18,13 +9,12 @@ on:
       - v[0-9]+.*
 
 jobs:
-  publish-matrix-sdk-crypto-wasm:
-    name: Publish 🕸 [m]-crypto-wasm
+  release:
+    name: Build, test, and publish release asset
     runs-on: ubuntu-latest
 
     permissions:
-      id-token: write # Allow requesting an OIDC JWT, which is required to publish to npm
-      contents: read
+      contents: write
 
     steps:
       - name: Checkout the repo
@@ -64,43 +54,17 @@ jobs:
       - name: Run tests
         run: pnpm test
 
-      - name: Determine dist-tag
-        id: dist-tag
+      - name: Verify release version
+        run: node -e 'if (`v${require("./package.json").version}` !== process.env.GITHUB_REF_NAME) process.exit(1)'
+
+      - name: Package release
         run: |
-          VERSION="${GITHUB_REF_NAME#v}"
-          LATEST=$(npm view . dist-tags.latest 2>/dev/null || echo "0.0.0")
+          mkdir dist
+          npm pack --ignore-scripts --pack-destination dist
+          cd dist
+          sha256sum *.tgz > SHA256SUMS
 
-          # Compare the new version with the current `latest`. If the new version is
-          # more recent, we can tag it as `latest`.
-          if [ "$(printf '%s\n%s\n' "$LATEST" "$VERSION" | sort -V | tail -n1)" = "$VERSION" ]; then
-            # Latest release branch
-            TAG=latest
-          else
-            # Older release branch: 18.9.1 -> v18-latest
-            TAG="v${VERSION%%.*}-latest"
-          fi
-
-          echo "Publishing with tag $TAG (current latest: $LATEST)"
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-
-      - name: Publish to npmjs
-        run: npm publish --provenance --ignore-scripts --tag "$DIST_TAG"
+      - name: Create GitHub release
+        run: gh release create "$GITHUB_REF_NAME" dist/*.tgz dist/SHA256SUMS --generate-notes --verify-tag
         env:
-          DIST_TAG: ${{ steps.dist-tag.outputs.tag }}
-
-  github-release:
-    name: Create the Github release
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
-    steps:
-      - name: Checkout the repo
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          persist-credentials: false
-
-      - name: Create the Github release
-        run: gh release create "$GITHUB_REF_NAME" --draft
-        env:
-            GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ github.token }}

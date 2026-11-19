@@ -1364,8 +1364,7 @@ dependencies = [
 [[package]]
 name = "matrix-sdk-base"
 version = "0.19.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "02d98114e35b09143eb0db0c1679176d56d9bcddd141546d7de272a87e6dc94e"
+source = "git+https://github.com/dh-companion/matrix-rust-sdk?rev=56d2b69d5d7c6e61efc4bdb0ae2ab878a9b1ce27#56d2b69d5d7c6e61efc4bdb0ae2ab878a9b1ce27"
 dependencies = [
  "as_variant",
  "async-trait",
@@ -1392,8 +1391,7 @@ dependencies = [
 [[package]]
 name = "matrix-sdk-common"
 version = "0.19.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "457c2b3c8995cb0f20b882ece41f5a31f07e4e556bafbe37c2c8f3f2d02f638f"
+source = "git+https://github.com/dh-companion/matrix-rust-sdk?rev=56d2b69d5d7c6e61efc4bdb0ae2ab878a9b1ce27#56d2b69d5d7c6e61efc4bdb0ae2ab878a9b1ce27"
 dependencies = [
  "eyeball-im",
  "futures-core",
@@ -1416,8 +1414,7 @@ dependencies = [
 [[package]]
 name = "matrix-sdk-crypto"
 version = "0.19.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6851a6f102574c52430bd3617f86fb0def62f912fd2aed5356dcb8ff06a9fbc3"
+source = "git+https://github.com/dh-companion/matrix-rust-sdk?rev=56d2b69d5d7c6e61efc4bdb0ae2ab878a9b1ce27#56d2b69d5d7c6e61efc4bdb0ae2ab878a9b1ce27"
 dependencies = [
  "aes",
  "as_variant",
@@ -1492,8 +1489,7 @@ dependencies = [
 [[package]]
 name = "matrix-sdk-indexeddb"
 version = "0.19.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d24e5bf2450df25451596d62b8af6e016bc6b47be78ae1e30a72985c1e4b6001"
+source = "git+https://github.com/dh-companion/matrix-rust-sdk?rev=56d2b69d5d7c6e61efc4bdb0ae2ab878a9b1ce27#56d2b69d5d7c6e61efc4bdb0ae2ab878a9b1ce27"
 dependencies = [
  "async-trait",
  "base64",
@@ -1525,8 +1521,7 @@ dependencies = [
 [[package]]
 name = "matrix-sdk-qrcode"
 version = "0.19.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2a806faaba375c3da09d9e7a97d99a6c9b11c5cbcfd4992694acba7a3f682262"
+source = "git+https://github.com/dh-companion/matrix-rust-sdk?rev=56d2b69d5d7c6e61efc4bdb0ae2ab878a9b1ce27#56d2b69d5d7c6e61efc4bdb0ae2ab878a9b1ce27"
 dependencies = [
  "byteorder",
  "qrcode",
@@ -1538,8 +1533,7 @@ dependencies = [
 [[package]]
 name = "matrix-sdk-store-encryption"
 version = "0.19.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "295c10317b47b20f0381743b16634be95fdcf244f0c0b85005cd53beb0797906"
+source = "git+https://github.com/dh-companion/matrix-rust-sdk?rev=56d2b69d5d7c6e61efc4bdb0ae2ab878a9b1ce27#56d2b69d5d7c6e61efc4bdb0ae2ab878a9b1ce27"
 dependencies = [
  "base64",
  "blake3",
